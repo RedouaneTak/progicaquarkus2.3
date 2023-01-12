@@ -13,8 +13,6 @@ public class EquipementGiteEntityPK implements Serializable {
     @Column(name = "ID_GITE")
     private int idGite;
 
-//    @Column(name = "ID_EQUIPEMENT")
-//    private int idEquipement;
 
     @ManyToOne
     @JoinColumn(name = "ID_EQUIPEMENT")

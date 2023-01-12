@@ -55,6 +55,7 @@ public class GiteResource {
         String uriBase = uriInfo.getRequestUriBuilder().build().toString();
 
         gite.addLink("all",uriBase.replace("/"+gite.getId(),""));
+        gite.addLink("equipements du gite",uriBase+"/"+"equipementsgite");
 
         return Response.ok(gite).build();
     }
@@ -67,6 +68,10 @@ public class GiteResource {
 
         String uriBase = uriInfo.getRequestUriBuilder().build().toString();
 
+        for(EquipementGiteDto equipementGiteDto: equipementsGite){
+            equipementGiteDto.addLink("all",uriBase.replace("/"+id+"/equipementsgite",""));
+            equipementGiteDto.addLink("id",uriBase.replace("/equipementsgite",""));
+        }
 
 
         return Response.ok(equipementsGite).build();
