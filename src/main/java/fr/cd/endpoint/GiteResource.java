@@ -3,12 +3,14 @@ package fr.cd.endpoint;
 
 import fr.cd.dto.EquipementGiteDto;
 import fr.cd.dto.GiteDto;
+import fr.cd.dto.PersonneDto;
 import fr.cd.dto.SaisonGiteDto;
 import fr.cd.entities.EquipementGiteEntity;
 import fr.cd.entities.EquipementGiteEntityPK;
 import fr.cd.entities.GiteEntity;
 import fr.cd.repositories.EquipementGiteRepository;
 import fr.cd.repositories.GiteRepository;
+import fr.cd.repositories.PersonneReposittory;
 import fr.cd.repositories.SaisonGiteRepository;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
@@ -31,6 +33,8 @@ public class GiteResource {
     @Inject
     GiteRepository giteRepository;
 
+    @Inject
+    PersonneReposittory personneReposittory;
 
     @Inject
     EquipementGiteRepository equipementGiteRepository;
@@ -95,6 +99,30 @@ public class GiteResource {
         }
 
         return Response.ok(saisonGite).build();
+    }
+
+    @GET
+    @Path("{id}/proprietaire")
+    public Response getPersonnebyId(@Context UriInfo uriInfo,@PathParam("id") Integer id){
+        GiteEntity gite = giteRepository.findById(id);
+        PersonneDto personne = PersonneDto.toPersonneById(personneReposittory.findById(gite.getIdPersonne()));
+
+
+        String uriBase = uriInfo.getRequestUriBuilder().build().toString();
+
+        return Response.ok(personne).build();
+    }
+
+    @GET
+    @Path("{id}/gerant")
+    public Response getGerantById(@Context UriInfo uriInfo,@PathParam("id") Integer id){
+        GiteEntity gite = giteRepository.findById(id);
+        PersonneDto personne = PersonneDto.toPersonneById(personneReposittory.findById(gite.getIdPersonneGerantGite()));
+
+
+        String uriBase = uriInfo.getRequestUriBuilder().build().toString();
+
+        return Response.ok(personne).build();
     }
 
 //
