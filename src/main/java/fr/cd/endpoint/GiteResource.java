@@ -3,11 +3,13 @@ package fr.cd.endpoint;
 
 import fr.cd.dto.EquipementGiteDto;
 import fr.cd.dto.GiteDto;
+import fr.cd.dto.SaisonGiteDto;
 import fr.cd.entities.EquipementGiteEntity;
 import fr.cd.entities.EquipementGiteEntityPK;
 import fr.cd.entities.GiteEntity;
 import fr.cd.repositories.EquipementGiteRepository;
 import fr.cd.repositories.GiteRepository;
+import fr.cd.repositories.SaisonGiteRepository;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
@@ -33,6 +35,8 @@ public class GiteResource {
     @Inject
     EquipementGiteRepository equipementGiteRepository;
 
+    @Inject
+    SaisonGiteRepository saisonGiteRepository;
 
 
 
@@ -56,6 +60,7 @@ public class GiteResource {
 
         gite.addLink("all",uriBase.replace("/"+gite.getId(),""));
         gite.addLink("equipements du gite",uriBase+"/"+"equipementsgite");
+        gite.addLink("saison du gite",uriBase+"/"+"saisongite");
 
         return Response.ok(gite).build();
     }
@@ -73,8 +78,23 @@ public class GiteResource {
             equipementGiteDto.addLink("id",uriBase.replace("/equipementsgite",""));
         }
 
-
         return Response.ok(equipementsGite).build();
+    }
+
+    @GET
+    @Path("{id}/saisongite")
+    public Response getSaisonGitebyId(@Context UriInfo uriInfo,@PathParam("id") Integer id){
+
+        List<SaisonGiteDto> saisonGite = SaisonGiteDto.toSaisonGiteDtoList(saisonGiteRepository.list("from SaisonGiteEntity where ID_GITE = ?1",id));
+
+        String uriBase = uriInfo.getRequestUriBuilder().build().toString();
+
+        for(SaisonGiteDto saisonGiteDto : saisonGite){
+            saisonGiteDto.addLink("all",uriBase.replace("/"+id+"saisongite",""));
+            saisonGiteDto.addLink("id",uriBase.replace("/saisongite",""));
+        }
+
+        return Response.ok(saisonGite).build();
     }
 
 //
