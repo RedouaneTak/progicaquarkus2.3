@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import fr.cd.HateOas;
 import fr.cd.entities.GiteEntity;
 import fr.cd.entities.PersonneEntity;
+import fr.cd.entities.TelephoneEntity;
+import fr.cd.entities.TypeTelephoneEntity;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -57,6 +59,7 @@ public class GiteDetailsDto extends HateOas {
         String prenom;
         String codeAderent;
         String idMail;
+        List<Telephone> telephone;
 
         public Personne(PersonneEntity personneEntity){
 
@@ -65,9 +68,46 @@ public class GiteDetailsDto extends HateOas {
             prenom = personneEntity.getPrenomPersonne();
             codeAderent = personneEntity.getCodeAderent();
             idMail = personneEntity.getIdMail();
+            telephone = Telephone.toListTelephone(personneEntity.getTelephoneEntity());
+
+
 
         }
 
+    }
+    @Data
+    static
+    class Telephone{
+        String numTel;
+        TypeTelephone typeTelephone;
+
+
+        public Telephone(TelephoneEntity telephoneEntity) {
+            numTel = telephoneEntity.getNumTel();
+            typeTelephone = new TypeTelephone(telephoneEntity.getTypeTelephone());
+        }
+
+        public  static List<Telephone> toListTelephone(List<TelephoneEntity> telephoneEntities){
+            List<Telephone> telephones = new ArrayList<>();
+            for(TelephoneEntity telephoneEntity:telephoneEntities){
+                telephones.add(new Telephone(telephoneEntity));
+            }
+
+            return telephones;
+        }
+
+
+    }
+    @Data
+    static
+    class TypeTelephone{
+        int idTypeTelephone;
+        String nomTypeTelephone;
+
+        public TypeTelephone(TypeTelephoneEntity typeTelephoneEntity) {
+            idTypeTelephone = typeTelephoneEntity.getIdTypeTelephone();
+            nomTypeTelephone = typeTelephoneEntity.getLibelleTypeTelephone();
+        }
     }
 
 }
