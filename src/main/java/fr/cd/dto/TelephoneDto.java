@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import fr.cd.HateOas;
 import fr.cd.entities.SaisonGiteEntity;
 import fr.cd.entities.TelephoneEntity;
+import fr.cd.entities.TypeTelephoneEntity;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -14,13 +15,14 @@ import java.util.List;
 public class TelephoneDto extends HateOas {
     private String numTel;
     private int idPersonne;
-    private int idTypeTelephone;
+    private TypeTelephone typeTelephone;
+
 
 
     public TelephoneDto(TelephoneEntity telephoneEntity){
         numTel = telephoneEntity.getNumTel();
         idPersonne = telephoneEntity.getIdPersonne();
-        idTypeTelephone = telephoneEntity.getIdTypeTelephone();
+        typeTelephone = new TypeTelephone(telephoneEntity.getTypeTelephone());
     }
 
     public static List<TelephoneDto> toTelephoneDtoList(List<TelephoneEntity> telephoneEntities) {
@@ -29,5 +31,16 @@ public class TelephoneDto extends HateOas {
             telephoneDtoList.add(new TelephoneDto(telephoneEntity));
         }
         return telephoneDtoList;
+    }
+
+    @Data
+    class TypeTelephone{
+        int idTypeTelephone;
+        String nomTypeTelephone;
+
+        public TypeTelephone(TypeTelephoneEntity typeTelephoneEntity) {
+           idTypeTelephone = typeTelephoneEntity.getIdTypeTelephone();
+           nomTypeTelephone = typeTelephoneEntity.getLibelleTypeTelephone();
+        }
     }
 }

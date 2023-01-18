@@ -3,6 +3,7 @@ package fr.cd.entities;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -25,6 +26,10 @@ public class PersonneEntity {
     @Basic
     @Column(name = "ID_MAIL")
     private String idMail;
+    @OneToMany(fetch =FetchType.LAZY)
+    @JoinColumn(name = "ID_PERSONNE")
+    private List<TelephoneEntity> telephoneEntity;
+
 
 
 }

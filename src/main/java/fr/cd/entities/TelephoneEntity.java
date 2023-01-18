@@ -16,9 +16,10 @@ public class TelephoneEntity {
     @Basic
     @Column(name = "ID_PERSONNE")
     private int idPersonne;
-    @Basic
-    @Column(name = "ID_TYPE_TELEPHONE")
-    private int idTypeTelephone;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_TYPE_TELEPHONE")
+    private TypeTelephoneEntity typeTelephone;
 
 
 }
