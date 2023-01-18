@@ -109,6 +109,8 @@ public class GiteResource {
 
         String uriBase = uriInfo.getRequestUriBuilder().build().toString();
 
+        personne.addLink("all",uriBase.replace("/proprietaire",""));
+
         return Response.ok(personne).build();
     }
 
@@ -120,6 +122,8 @@ public class GiteResource {
 
 
         String uriBase = uriInfo.getRequestUriBuilder().build().toString();
+
+        personne.addLink("all",uriBase.replace("/gerant",""));
 
         return Response.ok(personne).build();
     }
