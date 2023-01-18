@@ -25,8 +25,6 @@ public class PersonneEntity {
     @Basic
     @Column(name = "ID_MAIL")
     private String idMail;
-    @Basic
-    @Column(name = "ID_USER")
-    private Integer idUser;
+
 
 }

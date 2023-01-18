@@ -1,12 +1,7 @@
 package fr.cd.endpoint;
 
 
-import fr.cd.dto.EquipementGiteDto;
-import fr.cd.dto.GiteDto;
-import fr.cd.dto.PersonneDto;
-import fr.cd.dto.SaisonGiteDto;
-import fr.cd.entities.EquipementGiteEntity;
-import fr.cd.entities.EquipementGiteEntityPK;
+import fr.cd.dto.*;
 import fr.cd.entities.GiteEntity;
 import fr.cd.repositories.EquipementGiteRepository;
 import fr.cd.repositories.GiteRepository;
@@ -21,7 +16,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.util.ArrayList;
 import java.util.List;
 
 @Tag(name = "Gites")
@@ -49,22 +43,26 @@ public class GiteResource {
     public Response getAll(@Context UriInfo uriInfo){
 
         String uriBase = uriInfo.getRequestUriBuilder().build().toString();
+
+
         List<GiteDto> gite = GiteDto.toGiteDtoList(giteRepository.listAll());
+
         for(GiteDto giteDto : gite){
-            giteDto.addLink("all",uriBase);
-            giteDto.addLink("self",uriBase+"/"+giteDto.getId());
-        }
+           giteDto.addLink("all",uriBase);
+           giteDto.addLink("self",uriBase+"/"+giteDto.getId());     }
         return Response.ok(gite).build();
     }
     @GET
     @Path("{id}")
     public Response getbyId(@PathParam("id") Integer id,@Context UriInfo uriInfo){
-        GiteDto gite = GiteDto.toGiteById(giteRepository.findById(id));
+        GiteDetailsDto gite = GiteDetailsDto.toGiteById(giteRepository.findById(id));
         String uriBase = uriInfo.getRequestUriBuilder().build().toString();
 
         gite.addLink("all",uriBase.replace("/"+gite.getId(),""));
         gite.addLink("equipements du gite",uriBase+"/"+"equipementsgite");
         gite.addLink("saison du gite",uriBase+"/"+"saisongite");
+        gite.addLink("gerant",uriBase+"/gerant");
+        gite.addLink("proprietaire",uriBase+"/proprietaire");
 
         return Response.ok(gite).build();
     }
@@ -96,6 +94,7 @@ public class GiteResource {
         for(SaisonGiteDto saisonGiteDto : saisonGite){
             saisonGiteDto.addLink("all",uriBase.replace("/"+id+"saisongite",""));
             saisonGiteDto.addLink("id",uriBase.replace("/saisongite",""));
+
         }
 
         return Response.ok(saisonGite).build();
@@ -105,7 +104,7 @@ public class GiteResource {
     @Path("{id}/proprietaire")
     public Response getPersonnebyId(@Context UriInfo uriInfo,@PathParam("id") Integer id){
         GiteEntity gite = giteRepository.findById(id);
-        PersonneDto personne = PersonneDto.toPersonneById(personneReposittory.findById(gite.getIdPersonne()));
+        PersonneDto personne = PersonneDto.toPersonneById(personneReposittory.findById(gite.getPersonne().getIdPersonne()));
 
 
         String uriBase = uriInfo.getRequestUriBuilder().build().toString();
@@ -117,7 +116,7 @@ public class GiteResource {
     @Path("{id}/gerant")
     public Response getGerantById(@Context UriInfo uriInfo,@PathParam("id") Integer id){
         GiteEntity gite = giteRepository.findById(id);
-        PersonneDto personne = PersonneDto.toPersonneById(personneReposittory.findById(gite.getIdPersonneGerantGite()));
+        PersonneDto personne = PersonneDto.toPersonneById(personneReposittory.findById(gite.getPersonneGerant().getIdPersonne()));
 
 
         String uriBase = uriInfo.getRequestUriBuilder().build().toString();

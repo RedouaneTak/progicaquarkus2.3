@@ -28,18 +28,29 @@ public class GiteEntity {
     @Basic
     @Column(name = "ADRESSE_GITE")
     private String adresseGite;
-    @Basic
-    @Column(name = "ID_PERSONNE")
-    private int idPersonne;
-    @Basic
-    @Column(name = "ID_PERSONNE_GERANT_GITE")
-    private int idPersonneGerantGite;
+//    @Basic
+//    @Column(name = "ID_PERSONNE")
+//    private int idPersonne;
+
+    @ManyToOne
+    @JoinColumn(name="ID_PERSONNE")
+    private PersonneEntity personne;
+
+    @ManyToOne
+    @JoinColumn(name="ID_PERSONNE_GERANT_GITE")
+    private PersonneEntity personneGerant;
+
+//    @Basic
+//    @Column(name = "ID_PERSONNE_GERANT_GITE")
+//    private int idPersonneGerantGite;
     @Basic
     @Column(name = "CODE_INSEE_DEPT")
     private String codeInseeDept;
     @Basic
     @Column(name = "CODE_INSEE")
     private String codeInsee;
+
+
 
 
 }
