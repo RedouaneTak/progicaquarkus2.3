@@ -29,6 +29,9 @@ public class PersonneEntity {
     @OneToMany(fetch =FetchType.LAZY)
     @JoinColumn(name = "ID_PERSONNE")
     private List<TelephoneEntity> telephoneEntity;
+    @OneToMany(fetch =FetchType.LAZY)
+    @JoinColumn(name = "ID_PERSONNE")
+    private List<DisponibiliteEntity> disponibiliteEntity;
 
 
 

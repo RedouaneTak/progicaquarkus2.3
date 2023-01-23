@@ -63,6 +63,7 @@ public class GiteResource {
         gite.addLink("saison du gite",uriBase+"/"+"saisongite");
         gite.addLink("gerant",uriBase+"/gerant");
         gite.addLink("proprietaire",uriBase+"/proprietaire");
+        gite.addLink("disponibilite", uriBase+"/disponibilite");
 
         return Response.ok(gite).build();
     }
@@ -127,6 +128,20 @@ public class GiteResource {
 
         return Response.ok(personne).build();
     }
+
+//    @GET
+//    @Path("{id}/disponibilite")
+//    public Response getDisponibiliteById(@Context UriInfo uriInfo,@PathParam("id") Integer id){
+//        GiteEntity gite = giteRepository.findById(id);
+////        DisponibiliteDto disponibilite = PersonneDto.toPersonneById(personneReposittory.findById(gite.getPersonneGerant().getDisponibiliteEntity(), ));
+//
+//
+//        String uriBase = uriInfo.getRequestUriBuilder().build().toString();
+//
+//        disponibilite.addLink("all",uriBase.replace("/gerant",""));
+//
+//        return Response.ok(disponibilite).build();
+//    }
 
 //
 //    @PUT

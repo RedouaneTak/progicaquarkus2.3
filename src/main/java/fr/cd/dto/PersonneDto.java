@@ -2,12 +2,13 @@ package fr.cd.dto;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import fr.cd.HateOas;
+import fr.cd.entities.DisponibiliteEntity;
 import fr.cd.entities.PersonneEntity;
 import fr.cd.entities.TelephoneEntity;
 import fr.cd.entities.TypeTelephoneEntity;
 import lombok.Data;
-
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -19,6 +20,7 @@ public class PersonneDto extends HateOas {
     private String prenomPersonne;
     private String codeAderent;
     private List <Telephone> numTel;
+    private List<Disponibilite> disponibilites;
 
 
 
@@ -28,6 +30,7 @@ public class PersonneDto extends HateOas {
        prenomPersonne = personneEntity.getPrenomPersonne();
        codeAderent = personneEntity.getCodeAderent();
        numTel = fromTelephoneDtoList(personneEntity.getTelephoneEntity());
+       disponibilites = fromDisponibiliteDtoList(personneEntity.getDisponibiliteEntity());
 
     }
 
@@ -37,6 +40,14 @@ public class PersonneDto extends HateOas {
             telephoneList.add(new Telephone(telephoneEntity));
         }
         return telephoneList;
+    }
+
+    private List<Disponibilite> fromDisponibiliteDtoList(List<DisponibiliteEntity> disponibiliteEntities) {
+        List<Disponibilite> disponibiliteList = new ArrayList<>();
+        for (DisponibiliteEntity disponibiliteEntity : disponibiliteEntities){
+            disponibiliteList.add(new Disponibilite(disponibiliteEntity));
+        }
+        return disponibiliteList;
     }
 
     public static List<PersonneDto> toPersonneDtoList(List<PersonneEntity> personneEntities) {
@@ -75,4 +86,21 @@ public class PersonneDto extends HateOas {
             nomTypeTelephone = typeTelephoneEntity.getLibelleTypeTelephone();
         }
     }
+
+    @Data
+    class Disponibilite{
+        int idDisponibilite;
+        int jour;
+        Date heureDebut;
+        Date heureFin;
+
+        public Disponibilite(DisponibiliteEntity disponibiliteEntity){
+            idDisponibilite = disponibiliteEntity.getIdDisponibilite();
+            jour = disponibiliteEntity.getJour();
+            heureDebut = disponibiliteEntity.getHeureDebut();
+            heureFin = disponibiliteEntity.getHeureFin();
+        }
+    }
+
+
 }

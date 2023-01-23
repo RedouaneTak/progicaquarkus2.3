@@ -16,7 +16,6 @@ public class TelephoneEntity {
     @Basic
     @Column(name = "ID_PERSONNE")
     private int idPersonne;
-
     @ManyToOne
     @JoinColumn(name = "ID_TYPE_TELEPHONE")
     private TypeTelephoneEntity typeTelephone;
